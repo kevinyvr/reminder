@@ -5,8 +5,8 @@ const GitHubStrategy = require('passport-github').Strategy;
 const dotenv = require('dotenv');
 
 passport.use(new GitHubStrategy({
-    clientID: "fa496ac3e57a06ea5e8c",
-    clientSecret: "f690fff5e8c6b00c539bd683396bf0df5fa1d64c",
+    clientID: process.env.GITHUB_CLIENTID,
+    clientSecret: process.env.GITHUB_CLIENTSECRET,
     callbackURL: `http://localhost:${process.env.PORT}/auth/github/callback`
   },
   function (accessToken, refreshToken, profile, done) {
