@@ -2,12 +2,14 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const ejsLayouts = require("express-ejs-layouts");
+const dotenv = require('dotenv');
+dotenv.config();
 
 // set these before using passport initialize and session
 const session = require("express-session");
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -57,8 +59,8 @@ app.use("/reminder", reminderRoute);
 app.use("/auth", authRoute);
 app.use("/", indexRoute);
 
-app.listen(3001, function () {
+app.listen(process.env.PORT, function () {
   console.log(
-    "Server running. Visit: localhost:3001/reminders in your browser 🚀"
+    `Server running. Visit: localhost:${process.env.PORT}/reminders in your browser 🚀`
   );
 });

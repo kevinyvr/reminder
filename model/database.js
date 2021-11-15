@@ -13,10 +13,32 @@ let Database = [{
     {
         id: 2,
         name: "alex",
-        email: "testing@testing.com",
-        passowrd: "test",
+        email: "testing@test.com",
+        password: "test",
+        reminders: [{
+            id: 1,
+            title: "abcd",
+            description: "abcdabcd",
+            completed: true
+        }]
+    },
+    {
+        id: 3,
+        name: "Johnny Doe",
+        email: "john@test.com",
+        password: "test",
         reminders: []
-    }
+    },
+    // {
+    //     id: "gh_93570589",
+    //     name: "kevinyvr",
+    //     reminders: [{
+    //         id: 1,
+    //         title: "github_abc",
+    //         description: "github_abcabc",
+    //         completed: false
+    //     }]
+    // },
 ];
 
 
@@ -37,6 +59,10 @@ const userModel = {
         }
         // throw new Error(`Couldn't find user with id: ${id}`);
     },
+    addUser: (newUser) => {
+        Database.push(newUser);
+        return newUser;
+    }
 };
 
 module.exports = {

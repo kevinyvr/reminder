@@ -21,9 +21,21 @@ router.post(
   })
 );
 
+router.get(
+  "/github",
+  passport.authenticate("github")
+);
+
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect("auth/login");
+  res.redirect("/login");
 });
+
+router.get("/github/callback",
+  passport.authenticate("github"),
+  (req, res) => {
+    res.redirect("/reminders");
+  }
+)
 
 module.exports = router;
