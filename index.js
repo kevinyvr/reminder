@@ -5,13 +5,20 @@ const ejsLayouts = require("express-ejs-layouts");
 const dotenv = require('dotenv');
 dotenv.config();
 
-// set these before using passport initialize and session
+
+// set these before using passport initialize, session and redis store
 const session = require("express-session");
+const sessionStore = session.MemoryStore;
+
+// using memorystore as session store
+
 app.use(
   session({
+    // store: sessionStore,
+    store: new sessionStore(),
     secret: process.env.EXPRESS_SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
   })
 );
 
@@ -28,7 +35,9 @@ const indexRoute = require("./route/indexRoute");
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(ejsLayouts);
 
 app.use(passport.initialize());

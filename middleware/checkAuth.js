@@ -1,16 +1,33 @@
+const { userModel } = require("../model/database");
+
 module.exports = {
-  ensureAuthenticated: function (req, res, next) {
+  ensureAuthenticated: (req, res, next) => {
     if (req.isAuthenticated()) {
-      console.log("ensured logged in")
+      console.log("ensured logged in");
       return next();
     }
     console.log("not ensured logged in");
-    res.redirect("/login");
+    return res.redirect("/login");
   },
-  forwardAuthenticated: function (req, res, next) {
+  forwardAuthenticated: (req, res, next) => {
     if (!req.isAuthenticated()) {
       return next();
     }
-    res.redirect("/reminders");
+    return res.redirect("/reminders");
   },
+  isAdmin: (req, res, next) => {
+    if (req.user.role == "admin") {
+      return res.redirect("auth/admin");
+      // res.redirect("/reminders");
+    }
+    return next();
+  },
+  forwardAdmin: (req, res, next) => {
+    // only let admin to go forward
+    if (req.user.role == "admin") {
+      return next();
+    }
+    // not admin
+    return res.redirect("/reminders");
+  }
 };

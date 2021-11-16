@@ -1,7 +1,9 @@
 const express = require("express");
 const passport = require("../middleware/passport");
+const authUser = require("../controller/auth_controller");
+
 const {
-  forwardAuthenticated
+  ensureAuthenticated, forwardAuthenticated, forwardAdmin
 } = require("../middleware/checkAuth");
 
 const router = express.Router();
@@ -9,6 +11,11 @@ const router = express.Router();
 router.get("/login", forwardAuthenticated, (req, res) => {
   console.log(req.flash());
   res.render("auth/login")
+});
+
+router.get("/admin", [ensureAuthenticated, forwardAdmin], (req, res) => {
+  console.log(req.flash());
+  authUser.listLoggedInUsers(req,res);
 });
 
 router.post(

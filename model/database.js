@@ -1,6 +1,6 @@
 let Database = [{
         id: 1,
-        name: "cindy",
+        name: "kevin",
         email: "test@testing.com",
         password: "test",
         reminders: [{
@@ -8,7 +8,8 @@ let Database = [{
             title: "abc",
             description: "abcabc",
             completed: false
-        }]
+        }],
+        role: "admin",
     },
     {
         id: 2,
@@ -20,25 +21,17 @@ let Database = [{
             title: "abcd",
             description: "abcdabcd",
             completed: true
-        }]
+        }],
+        role: "user",
     },
     {
         id: 3,
         name: "Johnny Doe",
         email: "john@test.com",
         password: "test",
-        reminders: []
+        reminders: [],
+        role: "user",
     },
-    // {
-    //     id: "gh_93570589",
-    //     name: "kevinyvr",
-    //     reminders: [{
-    //         id: 1,
-    //         title: "github_abc",
-    //         description: "github_abcabc",
-    //         completed: false
-    //     }]
-    // },
 ];
 
 

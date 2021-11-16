@@ -1,0 +1,16 @@
+<div class="container">
+  <h1 class="page-header">Admin Dashboard</h1>
+
+  <br />
+  <h5>List of Active sessions</h5>
+  <ul class="list-group">
+    <% activeSessions.forEach((activeSession) => { %>
+    <li class="list-group-item">
+      <strong><%= activeSession %> </strong>
+      <a class="btn btn-info pull-right" href=<%= "/auth/destroySession/" + activeSession %>>Destroy</a>
+    </li>
+    <% }) %>
+  </ul>
+
+
+</div>

@@ -2,7 +2,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const userController = require("../controller/userController");
 const GitHubStrategy = require('passport-github').Strategy;
-const dotenv = require('dotenv');
 
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENTID,
