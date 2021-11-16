@@ -31,6 +31,21 @@ let authController = {
       });
     });
   },
+
+  destroyUserWithSID: (req, res) => {
+    let sID = req.params.sID;
+    console.log(sID);
+    req.sessionStore.destroy(sID, (err, data) => {
+      if (err) console.log(err);
+      req.sessionStore.all((error, sessions) => {
+        if (error) console.log(error);
+        console.log(sessions);
+        res.render("auth/admin", {
+          activeSessions: (Object.keys(sessions))
+        });
+      });
+    });
+  },
 };
 
 module.exports = authController;

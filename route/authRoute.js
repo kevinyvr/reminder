@@ -18,6 +18,11 @@ router.get("/admin", [ensureAuthenticated, forwardAdmin], (req, res) => {
   authUser.listLoggedInUsers(req,res);
 });
 
+router.get("/destroySession/:sID", [ensureAuthenticated, forwardAdmin], (req, res) => {
+  // console.log(req.flash());
+  authUser.destroyUserWithSID(req,res);
+});
+
 router.post(
   "/login",
   passport.authenticate("local", {
