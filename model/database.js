@@ -9,6 +9,7 @@ let Database = [{
             description: "abcabc",
             completed: false
         }],
+        profileURL: "",
         role: "admin",
     },
     {
@@ -22,6 +23,7 @@ let Database = [{
             description: "abcdabcd",
             completed: true
         }],
+        profileURL: "https://images.unsplash.com/photo-1635365349638-c79256d73f79?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYzNzYyNTUyNg&ixlib=rb-1.2.1&q=80&w=400",
         role: "user",
     },
     {
@@ -30,6 +32,7 @@ let Database = [{
         email: "john@test.com",
         password: "test",
         reminders: [],
+        profileURL: "",
         role: "user",
     },
 ];
@@ -55,7 +58,16 @@ const userModel = {
     addUser: (newUser) => {
         Database.push(newUser);
         return newUser;
-    }
+    },
+    nextID: () => {
+        return Database.length + 1;
+    },
+    updateProfileURL: (userID, newProfileURL) => {
+        const user = Database.find((user) => user.id === userID);
+        if (user) {
+            user.profileURL = newProfileURL;
+        }
+    },
 };
 
 module.exports = {

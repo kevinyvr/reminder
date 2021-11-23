@@ -4,12 +4,19 @@ let remindersController = {
   list: (req, res) => {
     //console.log(req);
     res.render("reminder/index", {
-      reminders: req.user.reminders
+      reminders: req.user.reminders,
+      userID: req.user.id,
+      userName: req.user.name,
+      userEmail: req.user.email,
+      showNavBar: "reminder",
     });
   },
 
   new: (req, res) => {
-    res.render("reminder/create");
+    res.render("reminder/create", {
+      userID: req.user.id,
+      showNavBar: "reminder",
+    });
   },
 
   listOne: (req, res) => {
@@ -19,11 +26,15 @@ let remindersController = {
     });
     if (searchResult != undefined) {
       res.render("reminder/single-reminder", {
-        reminderItem: searchResult
+        reminderItem: searchResult,
+        userID: req.user.id,
+        showNavBar: "reminder",
       });
     } else {
       res.render("reminder/index", {
-        reminders: req.user.reminders
+        userID: req.user.id,
+        reminders: req.user.reminders,
+        showNavBar: "reminder",
       });
     }
   },
@@ -45,7 +56,9 @@ let remindersController = {
       return reminder.id == reminderToFind;
     });
     res.render("reminder/edit", {
-      reminderItem: searchResult
+      userID: req.user.id,
+      reminderItem: searchResult,
+      showNavBar: "reminder",
     });
   },
 
@@ -54,7 +67,7 @@ let remindersController = {
     let reminderToFind = req.params.id;
     let modTitle = req.body.title;
     let modDesc = req.body.description;
-    let modCompleted = (req.body.completed=='true')?true:false;
+    let modCompleted = (req.body.completed == 'true') ? true : false;
 
     let searchResult = req.user.reminders.findIndex(function (reminder) {
       return reminder.id == reminderToFind;
@@ -65,7 +78,9 @@ let remindersController = {
       req.user.reminders[searchResult]["completed"] = modCompleted;
     }
     res.render("reminder/index", {
-      reminders: req.user.reminders
+      reminders: req.user.reminders,
+      userID: req.user.id,
+      showNavBar: "reminder",
     });
   },
 
@@ -79,7 +94,9 @@ let remindersController = {
       req.user.reminders.splice(searchResult, 1);
     }
     res.render("reminder/index", {
-      reminders: req.user.reminders
+      reminders: req.user.reminders,
+      userID: req.user.id,
+      showNavBar: "reminder",
     });
   },
 };

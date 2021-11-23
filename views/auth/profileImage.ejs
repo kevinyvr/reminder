@@ -1,0 +1,16 @@
+<div class="container users">
+    <div>
+      <h4>Current Profile Image</h4>
+      <% if ((typeof(userProfileURL) != 'undefined') && (userProfileURL != "")) { %>
+        <img src="<%= userProfileURL %>" />
+      <% } %>
+    </div>
+
+    <div>
+      <h4>Upload New Profile Image</h4>
+      <Input class="btn btn-primary" type="file" name="uploadProfileImg" id="uploadProfileImg" />
+    </div>
+</div>
+
+
+<script src="/upload.js"></script>

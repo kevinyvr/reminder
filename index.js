@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
+
 // set these before using passport initialize, session and redis store
 const session = require("express-session");
 const sessionStore = session.MemoryStore;
@@ -25,13 +26,36 @@ app.use(
 const flash = require('connect-flash');
 app.use(flash());
 
-// const authController = require("./controller/auth_controller");
+// // for image upload
+const cors = require("cors");
+// const helmet = require("helmet");
+const morgan = require("morgan");
+const multer = require("multer");
 
+const storage = multer.diskStorage({
+  destination: "./uploads",
+  filename: (req, file, callback) => {
+    callback(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+const upload = multer({
+  storage: storage,
+});
 
+app.use(cors());
+app.use(morgan("dev"));
+// app.use(helmet());
+app.use(upload.any());
+
+const authController = require("./controller/auth_controller");
 const passport = require("./middleware/passport");
 const reminderRoute = require("./route/reminderRoute");
 const authRoute = require("./route/authRoute");
 const indexRoute = require("./route/indexRoute");
+
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -45,22 +69,10 @@ app.use(passport.session());
 
 app.set("view engine", "ejs");
 
-
-// Routes start here
-// app.get("/reminders", reminderController.list);
-// app.get("/reminder/new", reminderController.new);
-// app.get("/reminder/:id", reminderController.listOne);
-// app.get("/reminder/:id/edit", reminderController.edit);
-
-// app.post("/reminder/", reminderController.create);
-// // Implement this yourself
-// app.post("/reminder/update/:id", reminderController.update);
-// app.post("/reminder/delete/:id", reminderController.delete);
-
 // Fix this to work with passport! The registration does not need to work, you can use the fake database for this.
-// app.get("/register", authController.register);
+app.get("/register", authController.register);
+app.post("/register", authController.registerSubmit);
 // app.get("/login", authController.login);
-// app.post("/register", authController.registerSubmit);
 // app.post("/login", authController.loginSubmit);
 
 // opt for authRoute and indexRoute instead

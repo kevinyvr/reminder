@@ -43,11 +43,31 @@ header.masthead h1 {
   font-size: 2rem;
 }
 
+.navbar-expand-lg .navbar-collapse {
+  justify-content: flex-end;
+}
+
+.navbar {
+  margin-bottom: 30px;
+}
+
+.users {
+  display: flex;
+}
+
+.users>div {
+  flex: 50%;
+}
+.users img {
+  margin-bottom:30px;
+}
+
 @media (min-width: 768px) {
   header.masthead {
     padding-top: 12rem;
     padding-bottom: 12rem;
   }
+
   header.masthead h1 {
     font-size: 3rem;
   }
@@ -130,7 +150,7 @@ footer.footer {
   padding-bottom: 4rem;
 }
 
-.form-signin .checkbox{
+.form-signin .checkbox {
   margin-bottom: 10px;
   margin-top: 10px;
 }

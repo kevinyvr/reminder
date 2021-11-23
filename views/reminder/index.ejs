@@ -1,5 +1,11 @@
 <div class="container">
+  
+  <% if ((typeof(userName) != 'undefined')) { %>
+  <h5>Welcome back <%= userName %></h5>
+  <br /><br />
+  <% } %>
   <h1 class="page-header">Reminders</h1>
+
 
 <ul class="list-group">
   <% reminders.forEach(function (reminderItem) { %>

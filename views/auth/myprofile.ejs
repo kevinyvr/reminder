@@ -1,0 +1,21 @@
+<div class="container">
+  <h4>My Profile</h4>
+  <div class="users"><div>
+    <% if ((typeof(userProfileURL) != 'undefined') && (userProfileURL != "")) { %>
+    <img src="<%= userProfileURL %>" />
+    <% } %>
+    <a href="/auth/profileImage" class="btn btn-primary">Replace Profile Image</a>
+  </div>
+
+  <div>
+    <label for="exampleInputName1">User ID</label>
+    <input readonly ename="uid" type="text" class="form-control" id="exampleInputName1" aria-describedby="nameHelp"
+      placeholder="Enter name" value="<%= userID %>">
+    <label for="exampleInputName1">Name</label>
+    <input readonly name="name" type="text" class="form-control" id="exampleInputName1" aria-describedby="nameHelp"
+      placeholder="Enter name" value="<%= userName %>">
+    <label for="exampleInputEmail1">Email address</label>
+    <input readonly name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+      placeholder="Enter email" value="<%= userEmail %>">
+  </div></div>
+</div>

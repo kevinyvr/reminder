@@ -10,9 +10,7 @@ passport.use(new GitHubStrategy({
   },
   function (accessToken, refreshToken, profile, done) {
     console.log("Github logged in. Now finding your record in the reminder system.");
-    // User.findGithubIDOrCreate({ githubId: profile.id }, function (err, user) {
-    //   return done(null, user);
-    // });
+
     let user = userController.findGithubIDOrCreate(profile);
     console.log(user);
     return done(null, user);

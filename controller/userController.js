@@ -1,5 +1,7 @@
 const userModel = require("../model/database").userModel;
 
+const fetch = require('node-fetch');
+
 const getUserByEmailIdAndPassword = (email, password) => {
   let user = userModel.findOne(email);
   if (user) {
@@ -9,6 +11,7 @@ const getUserByEmailIdAndPassword = (email, password) => {
   }
   return null;
 };
+
 const getUserById = (id) => {
   let user = userModel.findById(id);
   if (user) {
@@ -27,21 +30,56 @@ const findGithubIDOrCreate = (profile) => {
     let githubUser = {
       id: `gh_${profile.id}`,
       name: profile.username,
-      reminders: []
+      reminders: [],
+      profileURL: "",
+      role: "user",
     };
     let newUser = userModel.addUser(githubUser)
     console.log("Git hub user is not in our reminder system but has now been created");
     return newUser;
-  } 
+  }
   return null;
 }
 
-function isUserValid(user, password) {
+const findEmailOrCreate = async (email, name, password) => {
+  let user = userModel.findOne(email);
+  let nextID = userModel.nextID();
+  let existed = 1;
+
+  if (user) {
+    console.log("The user is already existed");
+    return [user, existed];
+  } else {
+    let localUser = {
+      id: nextID,
+      name: name,
+      email: name,
+      password: password,
+      reminders: [],
+      profileUrl: await getRandomImage(),
+      role: "user",
+    };
+    let newUser = userModel.addUser(localUser);
+    existed = 0;
+    console.log("The user is created");
+    return [newUser, existed];
+  }
+  return null;
+}
+
+const getRandomImage = async () => {
+  const res = await fetch('https://source.unsplash.com/random/400x400');
+ return res.url;
+}
+
+const isUserValid = (user, password) => {
   return user.password === password;
 };
 
 module.exports = {
   getUserByEmailIdAndPassword,
   getUserById,
+  getRandomImage,
   findGithubIDOrCreate,
+  findEmailOrCreate,
 };
