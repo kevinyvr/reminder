@@ -2,18 +2,24 @@ const userModel = require("../model/database").userModel;
 
 const fetch = require('node-fetch');
 
-const getUserByEmailIdAndPassword = (email, password) => {
-  let user = userModel.findOne(email);
-  if (user) {
-    if (isUserValid(user, password)) {
-      return user;
+const getUserByEmailIdAndPassword =  async (email, password) => {
+  try {
+    let user = await userModel.findPrismaOne(email);
+    
+    if (user) {
+      if (isUserValid(user, password)) {
+        return user;
+      }
     }
+    return null;
   }
-  return null;
+  catch (err) {
+    console.log(err);
+  }
 };
 
 const getUserById = (id) => {
-  let user = userModel.findById(id);
+  let user = userModel.findPrismaById(id);
   if (user) {
     return user;
   }
@@ -22,7 +28,7 @@ const getUserById = (id) => {
 
 const findGithubIDOrCreate = (profile) => {
   // adding a prefix of gh_ such that the ID would know be similar to our id in the reminder system
-  let user = userModel.findById(`gh_${profile.id}`);
+  let user = userModel.findPrismaById(`gh_${profile.id}`);
   if (user) {
     console.log("Git hub user had previously logged in our reminder system");
     return user;

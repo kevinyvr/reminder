@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const reminderController = require("../controller/reminder_controller");
 
-const passport = require("passport");
-const userController = require("../controller/userController");
+// const passport = require("passport");
+// const userController = require("../controller/userController");
 
 const {
   ensureAuthenticated,
@@ -29,3 +29,4 @@ router.get("/reminders", [ensureAuthenticated, isAdmin], (req, res) => {
 
 
 module.exports = router;
+

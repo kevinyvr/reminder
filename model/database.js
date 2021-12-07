@@ -44,27 +44,27 @@ let Database = [{
 
 
 const userModel = {
-    findOne: (email) => {
-        const user = Database.find((user) => user.email === email);
-        if (user) {
-            return user;
-        }
-        // throw new Error(`Couldn't find user with email: ${email}`);
-    },
-    findById: (id) => {
-        const user = Database.find((user) => user.id === id);
-        if (user) {
-            return user;
-        }
-        // throw new Error(`Couldn't find user with id: ${id}`);
-    },
-    addUser: (newUser) => {
-        Database.push(newUser);
-        return newUser;
-    },
-    nextID: () => {
-        return Database.length + 1;
-    },
+    // findOne: (email) => {
+    //     const user = Database.find((user) => user.email === email);
+    //     if (user) {
+    //         return user;
+    //     }
+    //     // throw new Error(`Couldn't find user with email: ${email}`);
+    // },
+    // findById: (id) => {
+    //     const user = Database.find((user) => user.id === id);
+    //     if (user) {
+    //         return user;
+    //     }
+    //     // throw new Error(`Couldn't find user with id: ${id}`);
+    // },
+    // addUser: (newUser) => {
+    //     Database.push(newUser);
+    //     return newUser;
+    // },
+    // nextID: () => {
+    //     return Database.length + 1;
+    // },
     updateProfileURL: (userID, newProfileURL) => {
         const user = Database.find((user) => user.id === userID);
         if (user) {
@@ -83,6 +83,22 @@ const userModel = {
             });
         } catch (error) {
             console.log(error + "error creating user");
+        }
+    },
+    findPrismaById: async (id) => {
+        id = id.toString();
+        try {
+            const existingUser = await prisma.user.findUnique({
+                where: {
+                    id
+                }
+            });
+            if (existingUser) {
+                return existingUser;
+            }
+            return null;
+        } catch (error) {
+            console.log(error + "Error looking up user");
         }
     },
     findPrismaOne: async (email) => {

@@ -2,9 +2,9 @@
 
 let remindersController = {
   list: (req, res) => {
-    //console.log(req);
+    console.log(req.user.reminders);
     res.render("reminder/index", {
-      reminders: req.user.reminders,
+      reminders: JSON.parse(req.user.reminders),
       userID: req.user.id,
       userName: req.user.name,
       userEmail: req.user.email,

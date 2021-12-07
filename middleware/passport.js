@@ -22,8 +22,9 @@ const localLogin = new LocalStrategy({
     usernameField: "email",
     passwordField: "password",
   },
-  (email, password, done) => {
-    const user = userController.getUserByEmailIdAndPassword(email, password);
+  async (email, password, done) => {
+    const user = await userController.getUserByEmailIdAndPassword(email, password);
+  
     return user ?
       done(null, user) :
       done(null, false, {
@@ -32,18 +33,24 @@ const localLogin = new LocalStrategy({
   }
 );
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id, done) {
-  let user = userController.getUserById(id);
-  if (user) {
-    done(null, user);
-  } else {
-    done({
-      message: "User not found"
-    }, null);
+passport.deserializeUser(async (id, done) => {
+  try {
+    let user = await userController.getUserById(id);
+    console.log(user);
+    if (user) {
+      done(null, user);
+    } else {
+      done({
+        message: "User not found"
+      }, null);
+    }
+  }
+  catch (err) {
+    console.log(err);
   }
 });
 
