@@ -42,34 +42,53 @@ const findGithubIDOrCreate = (profile) => {
 }
 
 const findEmailOrCreate = async (email, name, password) => {
-  let user = userModel.findOne(email);
-  let nextID = userModel.nextID();
-  let existed = 1;
+  // local database
+  // let user = userModel.findOne(email);
+  // let nextID = userModel.nextID();
+  // let existed = 1;
 
-  if (user) {
-    console.log("The user is already existed");
-    return [user, existed];
-  } else {
-    let localUser = {
-      id: nextID,
-      name: name,
-      email: name,
-      password: password,
-      reminders: [],
-      profileUrl: await getRandomImage(),
-      role: "user",
-    };
-    let newUser = userModel.addUser(localUser);
-    existed = 0;
-    console.log("The user is created");
-    return [newUser, existed];
+  // if (user) {
+  //   console.log("The user is already existed");
+  //   return [user, existed];
+  // } else {
+  //   let localUser = {
+  //     id: nextID,
+  //     name: name,
+  //     email: name,
+  //     password: password,
+  //     reminders: [],
+  //     profileUrl: await getRandomImage(),
+  //     role: "user",
+  //   };
+  //   let newUser = userModel.addUser(localUser);
+  //   existed = 0;
+  //   console.log("The user is created");
+  //   return [newUser, existed];
+  // }
+  try {
+    // prisma database
+    let user = await userModel.findPrismaOne(email);
+    let existed = 1;
+
+    if (user) {
+      console.log("The user is already existed");
+      return [user, existed];
+    } else {
+      const profileURL = await getRandomImage();
+      const newUser = await userModel.createPrismaUser(name,email, password, profileURL);
+      existed = 0;
+      console.log("The user is created");
+      return [newUser, existed];
+    }
   }
-  return null;
+  catch (error) {
+    console.log(error);
+  }
 }
 
 const getRandomImage = async () => {
   const res = await fetch('https://source.unsplash.com/random/400x400');
- return res.url;
+  return res.url;
 }
 
 const isUserValid = (user, password) => {

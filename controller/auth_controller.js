@@ -1,25 +1,13 @@
-let database = require("../model/database");
+// let database = require("../model/database");
 const userModel = require("../model/database").userModel;
 
-const passport = require("../middleware/passport");
+// const passport = require("../middleware/passport");
 const imgur = require("imgur");
 const fs = require("fs");
 
 const userController = require("../controller/userController");
 
 let authController = {
-  // login: (req, res) => {
-  //   if (forwardAuthenticated) {
-  //     res.render("/reminders");
-  //   } else {
-  //     res.render("auth/login");
-  //   }
-  // },
-
-  // loginSubmit: (req, res) => {
-  //   // implement
-  // },
-
   register: (req, res) => {
     res.render("auth/register", {
       showNavBar: "no",
@@ -28,24 +16,30 @@ let authController = {
 
   registerSubmit: async (req, res) => {
     // implement
-    let [user, existed] = await userController.findEmailOrCreate(req.body.email, req.body.name, req.body.password);
+    existed = 0;
+    try {
+      let [user, existed] = await userController.findEmailOrCreate(req.body.email, req.body.name, req.body.password);
 
-    if (existed) {
-      // User existed, redirect back to register
-      res.redirect("/register");
-    } else {
-      if ((user)) {
-        // User created, log the user in
-        req.login(user, (err) => {
-          if (!err) {
-            console.log(user);
-            res.redirect('/reminders');
-          } else {
-            //handle 
-            console.log("error logging in with nearly created user info")
-          }
-        });
+      if (existed) {
+        // User existed, redirect back to register
+        res.redirect("/register");
+      } else {
+        if ((user)) {
+          // User created, log the user in
+          req.login(user, (err) => {
+            if (!err) {
+              console.log(user);
+              res.redirect('/reminders');
+            } else {
+              //handle 
+              console.log("error logging in with nearly created user info")
+            }
+          });
+        }
       }
+    }
+    catch (err) {
+      console.log(err);
     }
   },
 

@@ -7,6 +7,7 @@ dotenv.config();
 
 
 
+
 // set these before using passport initialize, session and redis store
 const session = require("express-session");
 const sessionStore = session.MemoryStore;
@@ -26,7 +27,7 @@ app.use(
 const flash = require('connect-flash');
 app.use(flash());
 
-// // for image upload
+// for image upload
 const cors = require("cors");
 // const helmet = require("helmet");
 const morgan = require("morgan");
@@ -72,8 +73,6 @@ app.set("view engine", "ejs");
 // Fix this to work with passport! The registration does not need to work, you can use the fake database for this.
 app.get("/register", authController.register);
 app.post("/register", authController.registerSubmit);
-// app.get("/login", authController.login);
-// app.post("/login", authController.loginSubmit);
 
 // opt for authRoute and indexRoute instead
 app.use("/reminder", reminderRoute);
